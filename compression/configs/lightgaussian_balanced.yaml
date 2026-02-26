@@ -1,0 +1,38 @@
+# lightgaussian_balanced.yaml
+#
+# LightGaussian pruning (balanced) — Volume × Importance Score
+# Inspired by: "LightGaussian" (Fan et al., NeurIPS 2024, arXiv:2311.17245)
+#
+# Uses parameter-mode scoring (fast, no cameras needed).
+# 30% pruning with deformation-aware weighting for 4DGS.
+strategies:
+  - name: LightGaussianPruningStrategy
+    params:
+      prune_percent: 0.3
+      v_pow: 0.1
+      importance_mode: parameter      # "parameter" (fast) or "render" (GPU)
+      deformation_weight: 0.5         # boost dynamic Gaussians
+
+  - name: SHReductionStrategy
+    params:
+      target_sh_degree: 1
+
+  - name: QuantizationStrategy
+    params:
+      attribute_dtypes:
+        xyz: float16
+        features_dc: float16
+        features_rest: float16
+        opacity: float16
+        scaling: float16
+        rotation: float16
+      quantize_deformation: false
+
+  - name: HexPlaneCompressionStrategy
+    params:
+      method: quantize
+
+  - name: EntropyCodingStrategy
+    params:
+      algorithm: zlib
+      level: 6

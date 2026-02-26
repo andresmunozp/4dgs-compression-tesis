@@ -1,0 +1,57 @@
+# lightgaussian_render.yaml
+#
+# LightGaussian pruning — Render-based Importance (más fiel al paper original)
+# Inspired by: "LightGaussian" (Fan et al., NeurIPS 2024, arXiv:2311.17245)
+#
+# Usa forward render passes sobre cámaras de entrenamiento para calcular
+# la visibilidad real de cada Gaussiana (radii > 0).
+# Requiere: --source_path y GPU disponible.
+#
+# ⚠️  Más lento que el modo "parameter" (necesita renderizar múltiples vistas).
+#     Estimado: 1-3 minutos extra dependiendo de num_views × temporal_samples.
+#
+# Uso:
+#   python compress.py \
+#       --model_path output/dynerf/coffee_martini_sirvio \
+#       --iteration 14000 \
+#       --config compression/configs/lightgaussian_render.yaml \
+#       --output compressed_output/lightgaussian_render \
+#       --chunk_size 524288
+strategies:
+  - name: LightGaussianPruningStrategy
+    params:
+      prune_percent: 0.3
+      v_pow: 0.1
+      importance_mode: render         # render-based visibility scoring
+      deformation_weight: 0.3         # ligero bonus a Gaussians dinámicas
+      # ── Parámetros requeridos para modo render ──
+      source_path: data/dynerf/coffee_martini_funciono          # dataset con cámaras
+      model_path: output/dynerf/coffee_martini_sirvio   # modelo entrenado
+      iteration: 14000
+      configs: arguments/dynerf/coffee_martini.py       # hiperparámetros del modelo
+      num_views: 30                   # cámaras a muestrear (más = más preciso, más lento)
+      temporal_samples: 5             # timestamps uniformes por cámara (4DGS)
+
+  - name: SHReductionStrategy
+    params:
+      target_sh_degree: 1
+
+  - name: QuantizationStrategy
+    params:
+      attribute_dtypes:
+        xyz: float16
+        features_dc: float16
+        features_rest: float16
+        opacity: float16
+        scaling: float16
+        rotation: float16
+      quantize_deformation: false
+
+  - name: HexPlaneCompressionStrategy
+    params:
+      method: quantize
+
+  - name: EntropyCodingStrategy
+    params:
+      algorithm: zlib
+      level: 6

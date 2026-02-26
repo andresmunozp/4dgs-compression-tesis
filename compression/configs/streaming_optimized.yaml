@@ -1,0 +1,33 @@
+# streaming_optimized.yaml — Optimised for low-bandwidth Mininet transmission
+# Moderate pruning + SH→1 + float16 + HexPlane quantize + zstd
+# Use with --chunk_size 524288 (512 KB chunks) for fine-grained streaming
+
+strategies:
+  - name: PruningStrategy
+    params:
+      opacity_threshold: 0.008
+      max_gaussians: 100000
+
+  - name: SHReductionStrategy
+    params:
+      target_sh_degree: 1
+
+  - name: QuantizationStrategy
+    params:
+      attribute_dtypes:
+        xyz: float16
+        features_dc: float16
+        features_rest: float16
+        opacity: float16
+        scaling: float16
+        rotation: float16
+      quantize_deformation: true
+
+  - name: HexPlaneCompressionStrategy
+    params:
+      method: quantize
+
+  - name: EntropyCodingStrategy
+    params:
+      algorithm: zlib
+      level: 9

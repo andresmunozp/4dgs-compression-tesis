@@ -1,0 +1,14 @@
+# quantize_only.yaml — Float16 quantization on all Gaussian attributes
+# Safe baseline with ~50% size reduction and minimal quality loss
+
+strategies:
+  - name: QuantizationStrategy
+    params:
+      attribute_dtypes:
+        xyz: float16
+        features_dc: float16
+        features_rest: float16
+        opacity: float16
+        scaling: float16
+        rotation: float16
+      quantize_deformation: false

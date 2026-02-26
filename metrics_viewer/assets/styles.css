@@ -1,0 +1,426 @@
+/* 4DGaussians Metrics Viewer — Custom Styles
+   Follows Vercel Web Interface Guidelines */
+
+/* ── Global ─────────────────────────────────────────────── */
+
+html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background-color: #1a1a2e !important;
+    color: #e0e0e0;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(233, 69, 96, 0.2);
+    overflow-x: hidden;
+}
+
+.main-container {
+    max-width: 100dvh;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+}
+
+/* ── Focus states — :focus-visible only ─────────────────── */
+
+:focus-visible {
+    outline: 2px solid #533483;
+    outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+button:focus-visible,
+a:focus-visible,
+.nav-link:focus-visible,
+.btn:focus-visible,
+select:focus-visible,
+input:focus-visible {
+    outline: 2px solid #e94560;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(233, 69, 96, 0.25);
+}
+
+/* Group focus — compound controls */
+.filter-panel:focus-within {
+    border-color: #533483;
+    box-shadow: 0 0 0 2px rgba(83, 52, 131, 0.25);
+}
+
+/* ── Sidebar ────────────────────────────────────────────── */
+
+.sidebar {
+    background-color: #16213e;
+    min-height: 100dvh;
+    max-height: 100dvh;
+    padding: 1.5rem 1rem;
+    border-right: 1px solid #0f3460;
+    overscroll-behavior: contain;
+    overflow-y: auto;
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+}
+
+.sidebar .nav-link {
+    color: #a0b4d0;
+    border-radius: 8px;
+    margin-bottom: 0.3rem;
+    padding: 0.6rem 1rem;
+    transition: background-color 0.2s ease, color 0.15s ease;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #0f3460;
+    color: #e0e0e0;
+}
+
+.sidebar .nav-link:active {
+    background-color: #533483;
+    color: #fff;
+}
+
+.sidebar .nav-link.active {
+    background-color: #533483;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.sidebar-brand {
+    color: #e94560;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0 0.5rem 1rem;
+    border-bottom: 1px solid #0f3460;
+    margin-bottom: 1rem;
+}
+
+.sidebar-brand small {
+    display: block;
+    color: #6c7a8e;
+    font-weight: 400;
+    font-size: 0.7rem;
+    margin-top: 0.2rem;
+}
+
+/* Emoji/icon prefix in nav — decorative */
+.nav-icon {
+    display: inline-block;
+    margin-right: 0.4rem;
+}
+
+/* ── Metric Cards ───────────────────────────────────────── */
+
+.metric-card {
+    background: linear-gradient(135deg, #16213e 0%, #1a1a40 100%);
+    border: 1px solid #0f3460;
+    border-radius: 12px;
+    padding: 1.2rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    min-width: 0; /* flex truncation */
+}
+
+.metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(83, 52, 131, 0.3);
+}
+
+.metric-card .metric-label {
+    font-size: 0.75rem;
+    color: #6c7a8e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.3rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.metric-card .metric-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #e94560;
+    font-variant-numeric: tabular-nums;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.metric-card .metric-unit {
+    font-size: 0.8rem;
+    color: #a0b4d0;
+    margin-left: 0.3rem;
+}
+
+.metric-card .metric-delta {
+    font-size: 0.75rem;
+    margin-top: 0.2rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.metric-card .metric-delta.positive {
+    color: #2ecc71;
+}
+
+.metric-card .metric-delta.negative {
+    color: #e74c3c;
+}
+
+/* ── Tables ─────────────────────────────────────────────── */
+
+.comparison-table {
+    background-color: #16213e;
+    border-radius: 12px;
+    overflow: hidden;
+    overflow-x: auto;
+    border: 1px solid #0f3460;
+    max-width: 100%;
+}
+
+.comparison-table .dash-spreadsheet-container {
+    background-color: #16213e !important;
+}
+
+.comparison-table .dash-header {
+    background-color: #0f3460 !important;
+}
+
+/* Tabular nums in data cells */
+.comparison-table td {
+    font-variant-numeric: tabular-nums;
+}
+
+/* ── Section headers ────────────────────────────────────── */
+
+.section-title {
+    color: #e0e0e0;
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #533483;
+    text-wrap: balance;
+    scroll-margin-top: 1rem;
+}
+
+.section-subtitle {
+    color: #a0b4d0;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    text-wrap: pretty;
+}
+
+/* ── Charts ─────────────────────────────────────────────── */
+
+.chart-container {
+    background-color: #16213e;
+    border: 1px solid #0f3460;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    min-width: 0; /* flex truncation */
+}
+
+/* ── Filter panel ───────────────────────────────────────── */
+
+.filter-panel {
+    background-color: #16213e;
+    border: 1px solid #0f3460;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.filter-panel label {
+    color: #a0b4d0;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+}
+
+/* ── Dropdown dark overrides ────────────────────────────── */
+
+.Select-control,
+.Select-menu-outer {
+    background-color: #0b1e3d !important;
+    color: #e0e0e0 !important;
+}
+
+select {
+    background-color: #0b1e3d;
+    color: #e0e0e0;
+}
+
+/* ── Plotly chart dark theme overrides ───────────────────── */
+
+.js-plotly-plot .plotly .modebar {
+    background-color: transparent !important;
+}
+
+.js-plotly-plot .plotly .modebar-btn path {
+    fill: #a0b4d0 !important;
+}
+
+.js-plotly-plot .plotly .modebar-btn:hover path {
+    fill: #e94560 !important;
+}
+
+/* ── Page content area ──────────────────────────────────── */
+
+.page-content {
+    padding: 1.5rem;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+/* ── Loading states ─────────────────────────────────────── */
+
+.loading-overlay {
+    position: relative;
+}
+
+.loading-overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(26, 26, 46, 0.7);
+    border-radius: 12px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.loading-overlay.is-loading::after {
+    opacity: 1;
+    pointer-events: all;
+}
+
+._dash-loading {
+    position: relative;
+}
+
+.dash-spinner {
+    border-color: #533483 !important;
+    border-top-color: #e94560 !important;
+}
+
+/* ── Tooltip ────────────────────────────────────────────── */
+
+.viewer-tooltip {
+    position: relative;
+    cursor: help;
+}
+
+.viewer-tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%) scale(0.95);
+    background: #0f3460;
+    color: #e0e0e0;
+    padding: 0.4rem 0.7rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    z-index: 100;
+}
+
+.viewer-tooltip:hover::after,
+.viewer-tooltip:focus-visible::after {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+}
+
+/* ── Badge / tag styling ────────────────────────────────── */
+
+.source-badge {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.source-badge.benchmark_json { background-color: #533483; }
+.source-badge.benchmark_csv  { background-color: #0f3460; }
+.source-badge.training_json  { background-color: #2ecc71; color: #000; }
+.source-badge.vmaf_json      { background-color: #e94560; }
+
+/* ── Live region for async updates ──────────────────────── */
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ── Buttons — hover/active states ──────────────────────── */
+
+.btn:hover {
+    filter: brightness(1.15);
+}
+
+.btn:active {
+    filter: brightness(0.9);
+    transform: scale(0.98);
+}
+
+.btn {
+    transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+    .sidebar {
+        min-height: auto;
+        padding: 0.5rem;
+    }
+    .page-content {
+        padding: 0.5rem;
+    }
+    .metric-card .metric-value {
+        font-size: 1.4rem;
+    }
+}
+
+/* ── Reduced motion ─────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .metric-card:hover {
+        transform: none;
+    }
+
+    .btn:active {
+        transform: none;
+    }
+
+    .viewer-tooltip::after {
+        transition: none;
+    }
+}

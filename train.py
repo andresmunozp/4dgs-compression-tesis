@@ -30,6 +30,7 @@ import lpips
 from utils.scene_utils import render_training_image
 from time import time
 import copy
+from torch.serialization import add_safe_globals
 
 to8b = lambda x : (255*np.clip(x.cpu().numpy(),0,1)).astype(np.uint8)
 
@@ -42,8 +43,17 @@ def scene_reconstruction(dataset, opt, hyper, pipe, testing_iterations, saving_i
                          checkpoint_iterations, checkpoint, debug_from,
                          gaussians, scene, stage, tb_writer, train_iter,timer):
     first_iter = 0
-
+    add_safe_globals([np.core.multiarray.scalar])
     gaussians.training_setup(opt)
+    # if checkpoint:
+    #     # breakpoint()
+    #     if stage == "coarse" and stage not in checkpoint:
+    #         print("start from fine stage, skip coarse stage.")
+    #         # process is in the coarse stage, but start from fine stage
+    #         return
+    #     if stage in checkpoint: 
+    #         (model_params, first_iter) = torch.load(checkpoint)
+    #         gaussians.restore(model_params, opt)
     if checkpoint:
         # breakpoint()
         if stage == "coarse" and stage not in checkpoint:
@@ -51,9 +61,9 @@ def scene_reconstruction(dataset, opt, hyper, pipe, testing_iterations, saving_i
             # process is in the coarse stage, but start from fine stage
             return
         if stage in checkpoint: 
-            (model_params, first_iter) = torch.load(checkpoint)
+            # For PyTorch 2.6 and later — weights_only=False restores legacy behavior
+            (model_params, first_iter) = torch.load(checkpoint, map_location="cuda", weights_only=False)
             gaussians.restore(model_params, opt)
-
 
     bg_color = [1, 1, 1] if dataset.white_background else [0, 0, 0]
     background = torch.tensor(bg_color, dtype=torch.float32, device="cuda")
@@ -403,8 +413,8 @@ if __name__ == "__main__":
     parser.add_argument('--port', type=int, default=6009)
     parser.add_argument('--debug_from', type=int, default=-1)
     parser.add_argument('--detect_anomaly', action='store_true', default=False)
-    parser.add_argument("--test_iterations", nargs="+", type=int, default=[3000,7000,14000])
-    parser.add_argument("--save_iterations", nargs="+", type=int, default=[ 14000, 20000, 30_000, 45000, 60000])
+    parser.add_argument("--test_iterations", nargs="+", type=int, default=[2000])
+    parser.add_argument("--save_iterations", nargs="+", type=int, default=[2000])
     parser.add_argument("--quiet", action="store_true")
     parser.add_argument("--checkpoint_iterations", nargs="+", type=int, default=[])
     parser.add_argument("--start_checkpoint", type=str, default = None)

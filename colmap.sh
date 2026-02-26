@@ -1,7 +1,7 @@
 
 
-workdir=$1
-datatype=$2 # blender, hypernerf, llff
+workdir="data/dynerf/coffee_martini"
+datatype="llff" # blender, hypernerf, llff
 export CUDA_VISIBLE_DEVICES=0
 rm -rf $workdir/sparse_
 rm -rf $workdir/image_colmap

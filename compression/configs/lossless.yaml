@@ -1,0 +1,8 @@
+# lossless.yaml — Only entropy coding, no quality loss
+# Baseline for measuring maximum achievable lossless compression
+
+strategies:
+  - name: EntropyCodingStrategy
+    params:
+      algorithm: zlib
+      level: 9

@@ -9,3 +9,13 @@ screenshots
 data/
 data
 submodules/
+output_eval
+decompressed_output
+compressed_output
+benchmark_results
+__pycache__
+outputs_eval
+results_json
+.pytest_cache
+VideoGS_SIBR_viewers
+viewers

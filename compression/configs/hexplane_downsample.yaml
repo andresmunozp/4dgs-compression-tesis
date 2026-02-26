@@ -1,0 +1,11 @@
+# hexplane_downsample.yaml — Experimental: HexPlane spatial downsampling
+# Only downsamples the spatial axis (W) of TEMPORAL planes (XT, YT, ZT).
+# Spatial-only planes (XY, XZ, YZ) are kept at full resolution (fp16
+# quantised only) because they contain high-frequency features the MLP
+# is sensitive to.  Temporal axes are always preserved intact.
+
+strategies:
+  - name: HexPlaneCompressionStrategy
+    params:
+      method: downsample
+      downsample_factor: 2.0

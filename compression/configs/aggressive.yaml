@@ -1,0 +1,32 @@
+# aggressive.yaml — Maximum compression, accepts significant quality loss
+# Heavy pruning + SH→0 + int8 quantization + HexPlane SVD + zstd
+
+strategies:
+  - name: PruningStrategy
+    params:
+      opacity_threshold: 0.01
+      max_gaussians: 80000
+
+  - name: SHReductionStrategy
+    params:
+      target_sh_degree: 0
+
+  - name: QuantizationStrategy
+    params:
+      attribute_dtypes:
+        xyz: float16
+        features_dc: float16
+        opacity: float16
+        scaling: float16
+        rotation: float16
+      quantize_deformation: true
+
+  - name: HexPlaneCompressionStrategy
+    params:
+      method: svd
+      svd_rank: 4
+
+  - name: EntropyCodingStrategy
+    params:
+      algorithm: zlib
+      level: 9

@@ -1,0 +1,13 @@
+# hexplane_svd.yaml — Experimental: HexPlane SVD compression only
+# Isolates the effect of SVD rank reduction on the deformation grids
+# Temporal planes (XT, YT, ZT) automatically get 4x higher rank to
+# preserve the motion signal.  Energy threshold ensures enough singular
+# values are retained.
+
+strategies:
+  - name: HexPlaneCompressionStrategy
+    params:
+      method: svd
+      svd_rank: 16
+      svd_temporal_rank_multiplier: 4.0
+      svd_energy_threshold: 0.999

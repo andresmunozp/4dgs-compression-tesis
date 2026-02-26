@@ -1,0 +1,38 @@
+# lightgaussian_aggressive.yaml
+#
+# LightGaussian pruning (aggressive) — Maximum compression
+# Inspired by: "LightGaussian" (Fan et al., NeurIPS 2024, arXiv:2311.17245)
+#
+# 60% pruning + low SH + int8 quantization + SVD HexPlane.
+# Designed for very low-bandwidth streaming (≤ 1 Mbps).
+strategies:
+  - name: LightGaussianPruningStrategy
+    params:
+      prune_percent: 0.6
+      v_pow: 0.1
+      importance_mode: parameter
+      deformation_weight: 0.8         # strongly preserve dynamic parts
+
+  - name: SHReductionStrategy
+    params:
+      target_sh_degree: 0
+
+  - name: QuantizationStrategy
+    params:
+      attribute_dtypes:
+        xyz: int8
+        features_dc: int8
+        opacity: float16
+        scaling: int8
+        rotation: int8
+      quantize_deformation: true
+
+  - name: HexPlaneCompressionStrategy
+    params:
+      method: svd
+      svd_rank: 4
+
+  - name: EntropyCodingStrategy
+    params:
+      algorithm: zlib
+      level: 9

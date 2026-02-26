@@ -1,0 +1,52 @@
+# lightgaussian_4dgs_aware.yaml
+#
+# LightGaussian pruning — Optimizado para 4DGS dinámico
+# Inspired by: "LightGaussian" (Fan et al., NeurIPS 2024, arXiv:2311.17245)
+#
+# Extensión 4DGS-aware: usa deformation_weight alto para proteger
+# las Gaussianas que más se deforman (partes dinámicas de la escena).
+# Las Gaussianas estáticas o con poca deformación son podadas primero.
+#
+# Ideal para escenas con movimiento complejo (e.g. coffee_martini)
+# donde perder Gaussians dinámicas degrada más la calidad visual.
+#
+# Usa modo "parameter" (rápido, sin dependencia de cámaras ni GPU para scoring).
+#
+# Uso:
+#   python compress.py \
+#       --model_path output/dynerf/coffee_martini_sirvio \
+#       --iteration 14000 \
+#       --config compression/configs/lightgaussian_4dgs_aware.yaml \
+#       --output compressed_output/lightgaussian_4dgs \
+#       --chunk_size 524288
+strategies:
+  - name: LightGaussianPruningStrategy
+    params:
+      prune_percent: 0.35
+      v_pow: 0.1
+      importance_mode: parameter
+      deformation_weight: 1.0         # fuerte protección a Gaussians dinámicas
+
+  - name: SHReductionStrategy
+    params:
+      target_sh_degree: 1
+
+  - name: QuantizationStrategy
+    params:
+      attribute_dtypes:
+        xyz: float16
+        features_dc: float16
+        features_rest: float16
+        opacity: float16
+        scaling: float16
+        rotation: float16
+      quantize_deformation: false
+
+  - name: HexPlaneCompressionStrategy
+    params:
+      method: quantize
+
+  - name: EntropyCodingStrategy
+    params:
+      algorithm: zlib
+      level: 6
