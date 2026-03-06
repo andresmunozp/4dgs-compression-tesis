@@ -1,0 +1,5 @@
+strategies:
+  - name: PruningStrategy
+    params:
+      opacity_threshold: 0.005
+      max_gaussians: 150000

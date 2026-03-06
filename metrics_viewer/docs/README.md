@@ -58,6 +58,8 @@ Adapters (BenchmarkJsonReader, CsvExporter, etc.)
 | Training Eval | `/training` | Quality vs iteration, delta improvement, timing |
 | Streaming QoE | `/streaming` | QoE gauges, buffering metrics, throughput charts |
 | Compression Detail | `/compression` | Pipeline waterfall, per-axis quality, model info |
+| **Compression Analysis** | `/compression-analysis` | **Compare compression techniques: ratios, savings, timing, file sizes** |
+| **Decompression Analysis** | `/decompression-analysis` | **Analyze decompression performance: timing breakdown, throughput, FPS** |
 
 ## Data Sources
 
@@ -69,6 +71,8 @@ The viewer auto-discovers these files:
 | `benchmark_results/benchmark_summary.csv` | BenchmarkCsvReader | Summary quality metrics (fallback) |
 | `results_json/*.json` | TrainingJsonReader | Training quality, timing, model info |
 | `benchmark_results/*/vmaf*.json` | VmafJsonReader | Per-frame VMAF scores |
+| **`compressed_output/*/compression_report.json`** | **CompressionReportReader** | **Compression ratios, savings, timing, file sizes, chunking info** |
+| **`decompressed_output/*/decompression_report.json`** | **DecompressionReportReader** | **Decompression timing (assembly, decode, export), Gaussians count, throughput** |
 
 ## Export
 

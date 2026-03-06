@@ -1,0 +1,4 @@
+strategies:
+  - name: SHReductionStrategy
+    params:
+      target_sh_degree: 2

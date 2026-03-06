@@ -20,6 +20,8 @@ from .pages.per_frame_analysis import build_per_frame_analysis
 from .pages.training_eval import build_training_eval
 from .pages.streaming_qoe import build_streaming_qoe
 from .pages.compression_detail import build_compression_detail
+from .pages.compression_analysis import build_compression_analysis
+from .pages.decompression_analysis import build_decompression_analysis
 
 
 def _compute_data_hash(service: MetricsService) -> str:
@@ -32,12 +34,14 @@ def _compute_data_hash(service: MetricsService) -> str:
 # ── Navigation items ────────────────────────────────────────────
 
 NAV_ITEMS = [
-    {"label": "Overview",           "href": "/",            "id": "nav-overview",     "icon": "📊"},
-    {"label": "Benchmark Compare",  "href": "/benchmark",   "id": "nav-benchmark",    "icon": "🔧"},
-    {"label": "Per-Frame Analysis", "href": "/per-frame",   "id": "nav-perframe",     "icon": "📈"},
-    {"label": "Training Eval",      "href": "/training",    "id": "nav-training",     "icon": "🎯"},
-    {"label": "Streaming QoE",      "href": "/streaming",   "id": "nav-streaming",    "icon": "📡"},
-    {"label": "Compression Detail", "href": "/compression", "id": "nav-compression",  "icon": "🗜️"},
+    {"label": "Overview",              "href": "/",                       "id": "nav-overview",          "icon": "📊"},
+    {"label": "Benchmark Compare",     "href": "/benchmark",              "id": "nav-benchmark",         "icon": "🔧"},
+    {"label": "Per-Frame Analysis",    "href": "/per-frame",              "id": "nav-perframe",          "icon": "📈"},
+    {"label": "Training Eval",         "href": "/training",               "id": "nav-training",          "icon": "🎯"},
+    {"label": "Streaming QoE",         "href": "/streaming",              "id": "nav-streaming",         "icon": "📡"},
+    {"label": "Compression Detail",    "href": "/compression",            "id": "nav-compression",       "icon": "🗜️"},
+    {"label": "Compression Analysis",  "href": "/compression-analysis",   "id": "nav-comp-analysis",     "icon": "📦"},
+    {"label": "Decompression Analysis", "href": "/decompression-analysis", "id": "nav-decomp-analysis",   "icon": "🔄"},
 ]
 
 
@@ -115,6 +119,8 @@ def create_app(service: MetricsService, assets_folder: str | None = None,
         "/training": build_training_eval(service),
         "/streaming": build_streaming_qoe(service),
         "/compression": build_compression_detail(service),
+        "/compression-analysis": build_compression_analysis(service),
+        "/decompression-analysis": build_decompression_analysis(service),
     }
 
     total_records = len(service.get_all_records())

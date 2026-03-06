@@ -15,6 +15,8 @@ from pathlib import Path
 from .adapters.readers import (
     BenchmarkCsvReader,
     BenchmarkJsonReader,
+    CompressionReportReader,
+    DecompressionReportReader,
     TrainingJsonReader,
     VmafJsonReader,
 )
@@ -34,8 +36,8 @@ def build_service(config: ViewerConfig) -> MetricsService:
         BenchmarkJsonReader(),
         BenchmarkCsvReader(),
         TrainingJsonReader(),
-        VmafJsonReader(),
-    ]
+        VmafJsonReader(),        CompressionReportReader(),
+        DecompressionReportReader(),    ]
     service = MetricsService(readers=readers)
     total = service.auto_discover(config.project_root)
     logger.info("Service ready \u2014 %d records loaded", total)

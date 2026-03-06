@@ -9,6 +9,8 @@ class ResultSource(Enum):
     BENCHMARK_CSV = "benchmark_csv"
     TRAINING_JSON = "training_json"
     VMAF_JSON = "vmaf_json"
+    COMPRESSION_REPORT = "compression_report"
+    DECOMPRESSION_REPORT = "decompression_report"
 
 
 class ResultCategory(Enum):
